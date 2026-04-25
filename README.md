@@ -9,6 +9,8 @@
 - **Customização Página por Página:** Ajustes granulares onde você pode configurar a escala, a posição e a rotação individualmente para cada página do PDF, ou definir uma configuração global como base para todo o documento.
 - **Navegação Ágil:** Transição entre as páginas de forma intuitiva e rápida, com a possibilidade de navegar utilizando input direto.
 - **Presets de Alinhamento e Configuração rápida:** Inclui presets simplificados para alinhamento rápido (esquerda, centro, direita) das inserções, focando na produtividade.
+- **Exclusão de Páginas (Deleção Individual):** Ferramenta integrada na tela de Preview que permite apagar páginas em branco ou desnecessárias com um único clique, atualizando o documento temporário antes da exportação final.
+- **Subdivisão Inteligente de PDFs (Fatiamento A4):** O sistema identifica proativamente documentos muito extensos (como rolos contínuos) e oferece uma divisão automática. Ele fatia o arquivo usando as proporções exatas de folhas A4 e conta com um sistema de ajuste fino de margem (overlap), garantindo que nenhuma linha de texto seja cortada pela metade nas transições.
 - **Merge Assíncrono:** A mesclagem física do PDF ocorre (via `pdf-lib`) somente após clicar em "Exportar", otimizando os recursos da máquina para manter a interface local sempre fluida.
 
 ## 🛠️ Tecnologias Utilizadas
