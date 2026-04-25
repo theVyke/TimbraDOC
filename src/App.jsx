@@ -4,6 +4,7 @@ import Header from './components/Header';
 import UploadSection from './components/UploadSection';
 import PreviewSection from './components/PreviewSection';
 import ResultSection from './components/ResultSection';
+import SliceSection from './components/SliceSection';
 
 import SettingsModal from './components/SettingsModal';
 import Toast from './components/Toast';
@@ -168,6 +169,7 @@ export default function App() {
           onRemoveBase={removeBase}
           onRemoveLetterhead={removeLetterhead}
           onPreview={goToPreview}
+          onSlice={() => setStep('slice')}
           bothReady={!!baseFile && !!letterheadFile}
         />
       )}
@@ -175,6 +177,7 @@ export default function App() {
       {step === 'preview' && (
         <PreviewSection
           baseFile={baseFile}
+          setBaseFile={setBaseFile}
           letterheadImage={letterheadImage}
           letterheadSize={letterheadSize}
           letterheadFile={letterheadFile}
@@ -203,6 +206,16 @@ export default function App() {
         <ResultSection
           mergedBlob={mergedBlob}
           onNewMerge={resetAll}
+          addToast={addToast}
+        />
+      )}
+
+      {step === 'slice' && (
+        <SliceSection
+          baseFile={baseFile}
+          setBaseFile={setBaseFile}
+          onBack={() => setStep('upload')}
+          setLoading={setLoading}
           addToast={addToast}
         />
       )}
