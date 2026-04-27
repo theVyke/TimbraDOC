@@ -40,7 +40,7 @@ export default function SliceSection({
     calcDimensions();
   }, [baseFile, overlap]);
 
-  const handleSlice = async () => {
+  const handleSlice = async (downloadOnly = false) => {
     setLoading(true);
     try {
       const response = await fetch(baseFile);
@@ -79,9 +79,19 @@ export default function SliceSection({
       const blob = new Blob([pdfBytes], { type: 'application/pdf' });
       const url = URL.createObjectURL(blob);
       
-      setBaseFile(url);
-      addToast(`Documento dividido em ${sliceCount} páginas A4!`, 'success');
-      onBack(); // go back to upload step
+      if (downloadOnly) {
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'documento_dividido.pdf';
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        addToast('Documento baixado com sucesso!', 'success');
+      } else {
+        setBaseFile(url);
+        addToast(`Documento dividido em ${sliceCount} páginas A4!`, 'success');
+        onBack(); // go back to upload step
+      }
     } catch (err) {
       console.error(err);
       addToast(`Erro ao dividir: ${err.message}`, 'error');
@@ -148,10 +158,26 @@ export default function SliceSection({
              </div>
           </div>
 
-          <button className="btn btn--primary" onClick={handleSlice}>
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
-            Dividir Documento
-          </button>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+            <button 
+              className="btn btn--ghost" 
+              onClick={() => handleSlice(true)}
+              style={{ fontSize: '0.85rem', color: 'var(--text-secondary)' }}
+              title="Apenas salvar o PDF recortado em seu computador"
+            >
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" style={{ marginRight: '0.4rem' }}>
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                <polyline points="7 10 12 15 17 10"/>
+                <line x1="12" y1="15" x2="12" y2="3"/>
+              </svg>
+              Apenas Baixar
+            </button>
+
+            <button className="btn btn--primary" onClick={() => handleSlice(false)}>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
+              Dividir para Timbrar
+            </button>
+          </div>
         </div>
 
         <div className="preview-layout" style={{ display: 'flex', justifyContent: 'center', paddingTop: '2rem', paddingBottom: '4rem', overflowY: 'auto' }}>
